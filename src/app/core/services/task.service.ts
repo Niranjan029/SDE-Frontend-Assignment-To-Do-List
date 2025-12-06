@@ -30,6 +30,7 @@ export class TaskService {
       assignedTo: task.assignedTo || '',
       description: task.description || '',
       completed: task.completed || false,
+      priority: task.priority || 'Normal',
       dueDate: task.dueDate || '',
       createdAt: new Date().toISOString()
     };

@@ -46,7 +46,7 @@ export class TaskFormComponent implements OnInit {
         description: this.task.description || '',
         dueDate: this.task.dueDate || '',
         completed: !!this.task.completed,
-        priority: (this.task as any).priority || 'Normal'
+        priority: this.task.priority || 'Normal'
       });
       return;
     }
@@ -63,7 +63,7 @@ export class TaskFormComponent implements OnInit {
           description: task.description || '',
           dueDate: task.dueDate || '',
           completed: !!task.completed,
-          priority: (task as any).priority || 'Normal'
+          priority: task.priority || 'Normal'
         });
       }
     }
