@@ -20,14 +20,14 @@
 
       <div class="slds-col slds-size_1-of-2">
         <div class="slds-form-element">
-          <label class="slds-form-element__label">Status</label>
+          <label class="slds-form-element__label"><span class="slds-required">*</span>Status</label>
           <div class="slds-form-element__control">
-            <select class="slds-select" [value]="form.get('completed')?.value ? 'completed' : 'not'" (change)="form.patchValue({ completed: $any($event.target).value === 'completed' })">
-              <option value="not">Not Started</option>
-              <option value="in">In Progress</option>
-              <option value="completed">Completed</option>
+            <select class="slds-select" formControlName="completed">
+              <option [ngValue]="false">Not Started</option>
+              <option [ngValue]="true">Completed</option>
             </select>
           </div>
+          <div *ngIf="form.get('completed')?.invalid && form.get('completed')?.touched" class="slds-form-element__help slds-text-color_error">Status is required</div>
         </div>
       </div>
     </div>
@@ -35,20 +35,21 @@
     <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
       <div class="slds-col slds-size_1-of-2">
         <div class="slds-form-element">
-          <label class="slds-form-element__label">Due Date</label>
+          <label class="slds-form-element__label"><span class="slds-required">*</span>Due Date</label>
           <div class="slds-form-element__control">
             <input type="date" formControlName="dueDate" class="slds-input" />
           </div>
+          <div *ngIf="form.get('dueDate')?.invalid && form.get('dueDate')?.touched" class="slds-form-element__help slds-text-color_error">Due Date is required</div>
         </div>
       </div>
 
       <div class="slds-col slds-size_1-of-2">
         <div class="slds-form-element">
-          <label class="slds-form-element__label"><span class="slds-required">*</span>Priority</label>
+          <label class="slds-form-element__label">Priority</label>
           <div class="slds-form-element__control">
-            <select class="slds-select">
+            <select class="slds-select" formControlName="priority">
               <option>Low</option>
-              <option selected>Normal</option>
+              <option>Normal</option>
               <option>High</option>
             </select>
           </div>

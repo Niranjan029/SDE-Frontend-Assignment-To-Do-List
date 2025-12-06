@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { TaskService } from '../../../core/services/task.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../../../core/models/task.model';
@@ -28,11 +28,14 @@ export class TaskFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const nonNull = (c: AbstractControl) => (c.value === null || c.value === undefined) ? { required: true } : null;
+
     this.form = this.fb.group({
       assignedTo: ['', Validators.required],
       description: [''],
-      dueDate: [''],
-      completed: [false]
+      dueDate: ['', Validators.required],
+      completed: [null, nonNull],
+      priority: ['Normal']
     });
 
     if (this.task) {
@@ -42,7 +45,8 @@ export class TaskFormComponent implements OnInit {
         assignedTo: this.task.assignedTo || '',
         description: this.task.description || '',
         dueDate: this.task.dueDate || '',
-        completed: !!this.task.completed
+        completed: !!this.task.completed,
+        priority: (this.task as any).priority || 'Normal'
       });
       return;
     }
@@ -54,7 +58,13 @@ export class TaskFormComponent implements OnInit {
       this.taskId = id;
       const task = this.taskService.getById(id);
       if (task) {
-        this.form.patchValue(task);
+        this.form.patchValue({
+          assignedTo: task.assignedTo || '',
+          description: task.description || '',
+          dueDate: task.dueDate || '',
+          completed: !!task.completed,
+          priority: (task as any).priority || 'Normal'
+        });
       }
     }
   }
@@ -66,7 +76,14 @@ export class TaskFormComponent implements OnInit {
     }
 
     if (this.isEdit && this.taskId) {
-      const payload = { ...this.form.value } as any;
+      const raw = { ...this.form.value } as any;
+      const payload: any = {
+        assignedTo: raw.assignedTo,
+        description: raw.description,
+        dueDate: raw.dueDate,
+        completed: !!raw.completed,
+        priority: raw.priority
+      };
       if (!payload.title && payload.assignedTo) payload.title = payload.assignedTo;
       const updated = this.taskService.update(this.taskId, payload);
       if (this.inModal && updated) {
@@ -74,7 +91,14 @@ export class TaskFormComponent implements OnInit {
         return;
       }
     } else {
-      const payload = { ...this.form.value } as any;
+      const raw = { ...this.form.value } as any;
+      const payload: any = {
+        assignedTo: raw.assignedTo,
+        description: raw.description,
+        dueDate: raw.dueDate,
+        completed: !!raw.completed,
+        priority: raw.priority
+      };
       if (!payload.title && payload.assignedTo) payload.title = payload.assignedTo;
       const created = this.taskService.create(payload);
       if (this.inModal && created) {
