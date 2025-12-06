@@ -1,0 +1,121 @@
+<div class="slds-card task-list-card">
+  <div class="slds-card__header slds-p-horizontal_medium slds-p-vertical_medium">
+    <div class="slds-grid slds-wrap slds-gutters slds-grid_align-spread slds-grid_vertical-align-center">
+      <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-large-size_auto">
+        <div class="slds-grid slds-wrap slds-gutters slds-grid_align-spread slds-grid_vertical-align-center">
+          <div class="slds-grid_vertical-align-center header-left">
+            <div class="header-icon" aria-hidden="true">
+              <svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                <rect width="36" height="36" rx="6" fill="#e04b7a"></rect>
+                <g fill="#fff">
+                  <rect x="10" y="11" width="14" height="2"></rect>
+                  <rect x="10" y="16" width="14" height="2"></rect>
+                  <rect x="10" y="21" width="8" height="2"></rect>
+                </g>
+              </svg>
+            </div>
+            <div class="header-title slds-m-left_small">
+              <h2 class="slds-text-heading_medium slds-m-bottom_x-small">Tasks</h2>
+              <div class="slds-text-body_small slds-text-color_weak">All Tasks</div>
+            </div>
+          </div>
+
+          <div class="slds-col slds-size_1-of-1 slds-large-size_auto header-right">
+            <div class="slds-m-bottom_small header-actions">
+              <button class="header-btn header-btn--yellow slds-m-right_x-small" (click)="addNew()">New Task</button>
+              <button class="header-btn header-btn--yellow" (click)="refreshList()">Refresh</button>
+            </div>
+            <div>
+              <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                  <svg class="slds-input__icon slds-input__icon_left" aria-hidden="true"><use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use></svg>
+                  <input class="slds-input search-input" type="search" placeholder="Search" [(ngModel)]="searchQuery" (input)="onSearch(searchQuery)" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slds-card__body slds-p-around_medium">
+    <div class="slds-text-body_small slds-m-bottom_small">{{ filteredTasks.length }} of {{ tasks.length }} records</div>
+    <div class="slds-table_container">
+      <table class="slds-table slds-table_cell-buffer slds-table_striped slds-no-row-hover task-table">
+        <thead>
+          <tr class="slds-line-height_reset slds-text-heading_label">
+            <th scope="col" class="col-checkbox"><input type="checkbox" title="Select all" /></th>
+            <th scope="col" class="col-title"><div class="slds-truncate" title="Task Title">Task Title</div></th>
+            <th scope="col" class="col-status"><div class="slds-truncate" title="Status">Status</div></th>
+            <th scope="col" class="col-due"><div class="slds-truncate" title="Due Date">Due Date</div></th>
+            <th scope="col" class="col-priority"><div class="slds-truncate" title="Priority">Priority</div></th>
+            <th scope="col" class="col-comments"><div class="slds-truncate" title="Comments">Comments</div></th>
+            <th scope="col" class="col-actions"><div class="slds-truncate">Actions</div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of filteredTasks" class="slds-line-height_reset task-row">
+            <td class="col-checkbox"><input type="checkbox" /></td>
+            <td class="col-title"><div class="slds-truncate"><a href="javascript:void(0)" class="slds-text-link" (click)="edit(t)" [title]="t.assignedTo || t.title">{{ t.assignedTo || t.title }}</a></div></td>
+            <td class="col-status"><div class="slds-truncate">{{ t.completed ? 'Completed' : 'Not Started' }}</div></td>
+            <td class="col-due"><div class="slds-truncate">{{ t.dueDate || '-' }}</div></td>
+            <td class="col-priority"><div class="slds-truncate">Normal</div></td>
+            <td class="col-comments"><div class="slds-text-body_small comment-cell" [title]="t.description || 'No description'">{{ t.description || '-' }}</div></td>
+            <td class="col-actions">
+              <div class="slds-button-group slds-button-group_small">
+                <button class="slds-button slds-button_icon-border-filled action-btn edit-btn" style="background: #fef3c7; border: 1px solid #d9cec3;" title="Edit Task" (click)="edit(t)"><svg class="slds-button__icon" aria-hidden="true"><use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#edit"></use></svg></button>
+                <button class="slds-button slds-button_icon-border-filled action-btn delete-btn" style="background: #fef3c7; border: 1px solid #d9cec3;" title="Delete Task" (click)="deleteTask(t)"><svg class="slds-button__icon" aria-hidden="true"><use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#delete"></use></svg></button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="filteredTasks.length === 0" class="slds-line-height_reset">
+            <td colspan="7" class="slds-text-align_center slds-p-vertical_medium">
+              <span class="slds-text-body_small slds-text-color_weak">No tasks found</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- SLDS modal markup -->
+<div *ngIf="showModal">
+  <div class="slds-backdrop slds-backdrop_open"></div>
+  <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open task-modal">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header slds-modal__header_empty">
+        <button class="slds-button slds-button_icon slds-modal__close" title="Close" (click)="onCancelled()">
+          <svg class="slds-button__icon" aria-hidden="true"><use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use></svg>
+          <span class="slds-assistive-text">Close</span>
+        </button>
+      </header>
+      <div class="slds-modal__content">
+        <app-task-form [task]="modalTask" [inModal]="true" (saved)="onSaved($event)" (cancelled)="onCancelled()"></app-task-form>
+      </div>
+      <footer class="slds-modal__footer"></footer>
+    </div>
+  </section>
+</div>
+
+<!-- Delete confirmation modal -->
+<div *ngIf="showDeleteModal">
+  <div class="slds-backdrop slds-backdrop_open"></div>
+  <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open delete-modal">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header">
+        <h2 class="slds-text-heading_medium slds-align_absolute-center">Delete</h2>
+      </header>
+      <div class="slds-modal__content slds-p-around_medium">
+        <p>Do you want to delete task "{{ deleteTaskCandidate?.title }}"?</p>
+      </div>
+      <footer class="slds-modal__footer slds-grid slds-grid_align-end slds-p-around_small">
+        <div class="slds-button-group">
+          <button class="header-btn header-btn--green" type="button" (click)="cancelDelete()">No</button>
+          <button class="header-btn header-btn--yellow" type="button" (click)="confirmDelete()">Yes</button>
+        </div>
+      </footer>
+    </div>
+  </section>
+</div>

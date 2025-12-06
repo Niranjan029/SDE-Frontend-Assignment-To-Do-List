@@ -1,0 +1,71 @@
+<div>
+  <h2 class="slds-text-heading_medium slds-m-bottom_medium">{{ isEdit ? 'Edit Task' : 'New Task' }}</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+      <div class="slds-col slds-size_1-of-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">Assigned To</label>
+              <div class="slds-form-element__control">
+                <select class="slds-select" formControlName="assignedTo">
+                  <option value="">Unassigned</option>
+                  <option>User 1</option>
+                  <option>User 2</option>
+                  <option>User 3</option>
+                </select>
+              </div>
+              <div *ngIf="form.get('assignedTo')?.invalid && form.get('assignedTo')?.touched" class="slds-form-element__help slds-text-color_error">Assigned To is required</div>
+        </div>
+      </div>
+
+      <div class="slds-col slds-size_1-of-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">Status</label>
+          <div class="slds-form-element__control">
+            <select class="slds-select" [value]="form.get('completed')?.value ? 'completed' : 'not'" (change)="form.patchValue({ completed: $any($event.target).value === 'completed' })">
+              <option value="not">Not Started</option>
+              <option value="in">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-grid slds-wrap slds-gutters slds-m-bottom_medium">
+      <div class="slds-col slds-size_1-of-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label">Due Date</label>
+          <div class="slds-form-element__control">
+            <input type="date" formControlName="dueDate" class="slds-input" />
+          </div>
+        </div>
+      </div>
+
+      <div class="slds-col slds-size_1-of-2">
+        <div class="slds-form-element">
+          <label class="slds-form-element__label"><span class="slds-required">*</span>Priority</label>
+          <div class="slds-form-element__control">
+            <select class="slds-select">
+              <option>Low</option>
+              <option selected>Normal</option>
+              <option>High</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slds-form-element slds-m-bottom_medium">
+      <label class="slds-form-element__label">Description</label>
+      <div class="slds-form-element__control">
+        <textarea formControlName="description" class="slds-textarea" rows="5" placeholder="Enter task description"></textarea>
+      </div>
+    </div>
+
+    <div class="slds-grid slds-grid_align-end slds-grid_gap-small slds-p-top_medium form-footer" style="border-top: 1px solid #e0e0e0;">
+      <button class="header-btn header-btn--yellow" type="button" (click)="cancel()">Cancel</button>
+      <button class="header-btn header-btn--green" type="submit">{{ isEdit ? 'Save' : 'Save' }}</button>
+    </div>
+  </form>
+</div>

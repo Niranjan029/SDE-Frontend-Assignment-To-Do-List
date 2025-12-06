@@ -26,10 +26,12 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "node_modules/@salesforce-ux/design-system/assets",
+                "output": "/assets/"
               }
             ],
             "styles": [
+              "node_modules/@salesforce-ux/design-system/assets/styles/salesforce-lightning-design-system.min.css",
               "src/styles.scss"
             ]
           },

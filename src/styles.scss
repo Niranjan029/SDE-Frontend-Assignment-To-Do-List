@@ -1,1 +1,571 @@
-/* You can add global styles to this file, and also import other style files */
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background-color: #f7f9fb;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Responsive container */
+.slds-card {
+  max-width: 100%;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.slds-table_container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table styling improvements */
+.slds-table_striped tbody tr:nth-child(even) {
+  background-color: #f7f9fb;
+}
+
+.slds-table td,
+.slds-table th {
+  padding: 0.75rem 0.5rem;
+  vertical-align: middle;
+}
+
+.slds-table thead th {
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #d9d9d9;
+  font-weight: 600;
+}
+
+.slds-table tbody tr {
+  border-bottom: 1px solid #e3e5e7;
+  transition: background-color 0.2s ease;
+}
+
+.slds-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Input and form styling */
+.slds-input,
+.slds-select,
+.slds-textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  transition: border-color 0.1s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #0070d2;
+    box-shadow: 0 0 0 3px rgba(0, 112, 210, 0.1);
+  }
+}
+
+.slds-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Button styling */
+.slds-button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &_brand {
+    background-color: #0070d2;
+    color: white;
+    border: 1px solid #0070d2;
+
+    &:hover {
+      background-color: #0052cc;
+    }
+
+    &:active {
+      background-color: #003da5;
+    }
+  }
+
+  &_neutral {
+    background-color: #f3f3f3;
+    color: #333;
+    border: 1px solid #d9d9d9;
+
+    &:hover {
+      background-color: #e8e8e8;
+    }
+  }
+
+  &_icon-border-filled {
+    padding: 0.5rem;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Modal styling */
+.slds-modal__container {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+}
+
+.slds-modal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slds-modal__container {
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 4px;
+}
+
+.slds-backdrop_open {
+  display: block;
+}
+
+/* Form spacing */
+.slds-form-element {
+  margin-bottom: 1rem;
+}
+
+.slds-form-element__label {
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.slds-form-element__control {
+  width: 100%;
+}
+
+/* Grid responsive adjustments */
+.slds-grid {
+  width: 100%;
+}
+
+.slds-col {
+  min-width: 0; /* Fixes flex overflow issue */
+}
+
+/* Utility classes */
+.slds-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slds-text-link {
+  color: #0070d2;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .slds-card__header {
+    padding: 1rem !important;
+  }
+
+  .slds-text-heading_medium {
+    font-size: 1.25rem;
+  }
+
+  .slds-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .slds-table {
+    font-size: 0.875rem;
+  }
+
+  .slds-modal__container {
+    width: 95%;
+    max-height: 95vh;
+  }
+}
+/* Task list specific styles */
+.task-list-card {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.task-table {
+  table-layout: auto;
+  width: 100%;
+}
+
+/* Column width management */
+.col-checkbox {
+  width: 5%;
+  min-width: 50px;
+}
+
+.col-title {
+  width: 20%;
+  min-width: 150px;
+}
+
+.col-status {
+  width: 12%;
+  min-width: 100px;
+}
+
+.col-due {
+  width: 12%;
+  min-width: 100px;
+}
+
+.col-priority {
+  width: 10%;
+  min-width: 90px;
+}
+
+.col-comments {
+  width: 28%;
+  min-width: 150px;
+}
+
+.col-actions {
+  width: 13%;
+  min-width: 110px;
+  text-align: right;
+}
+
+/* Comment cell styling - prevent overflow */
+.comment-cell {
+  display: block;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: break-word;
+  line-height: 1.5;
+}
+
+/* Search input styling */
+.search-input {
+  padding-left: 2.5rem;
+  width: 100%;
+}
+
+/* Task modal styling */
+.task-modal {
+  z-index: 1001;
+}
+
+.task-modal .slds-modal__container {
+  padding: 0;
+}
+
+.slds-modal__content {
+  padding: 1.5rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Header icon */
+.header-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Header action buttons (wireframe yellow) */
+.header-btn {
+  border-radius: 2px;
+  padding: 0.5rem 0.75rem;
+  font-weight: 600;
+}
+.header-btn--yellow {
+  background: #f6e0a7; /* pale yellow similar to wireframe */
+  color: #6b4f2a;
+  border: 1px solid #edd49a;
+}
+.header-btn--yellow:hover { background: #f3d97a; }
+
+.header-btn--green {
+  background: #7fa07a; /* muted green */
+  color: #ffffff;
+  border: 1px solid #6b8b66;
+}
+.header-btn--green:hover { background: #6c8b63; }
+
+/* Footer layout: keep minimal styles, align right */
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 0 0 0;
+}
+
+/* Comment cell: allow tooltip but keep one-line truncation in table; on mobile column hides */
+.comment-cell { max-width: 360px; }
+
+/* Header layout tweaks to match wireframe */
+.header-left {
+  align-items: center;
+}
+
+.header-right {
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.header-title h2 {
+  margin: 0;
+}
+
+.header-actions {
+  display: inline-flex;
+  gap: 0.5rem;
+}
+
+.header-btn {
+  box-shadow: none;
+}
+
+/* Delete modal styling */
+.delete-modal .slds-modal__header {
+  background: #c62828; /* red header */
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+}
+.delete-modal .slds-modal__content p {
+  margin: 0;
+}
+.delete-modal .slds-modal__footer {
+  background: transparent;
+  border-top: 0;
+  box-shadow: none;
+}
+
+/* Tweak delete modal sizing and center it vertically */
+.delete-modal .slds-modal__container {
+  height: auto;
+}
+.delete-modal .slds-modal__content {
+  padding: 1rem;
+}
+
+/* Make header tiles appear in a row on larger viewports */
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* On very small screens allow stacking */
+@media (max-width: 599px) {
+  .header-right {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .header-actions { justify-content: flex-end; }
+}
+
+/* Action buttons */
+.action-btn {
+  padding: 0.25rem;
+  min-width: 2rem;
+  height: 2rem;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.edit-btn,
+.delete-btn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-btn:hover,
+.delete-btn:hover {
+  background-color: #fce4b6 !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .slds-card__header {
+    padding: 0.75rem !important;
+  }
+
+  .slds-text-heading_medium {
+    font-size: 1.125rem;
+  }
+
+  .task-table {
+    font-size: 0.8rem;
+  }
+
+  .task-table td,
+  .task-table th {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .col-comments {
+    display: none;
+  }
+
+  .col-due {
+    display: none;
+  }
+
+  .col-priority {
+    display: none;
+  }
+
+  .col-actions {
+    width: 100%;
+    min-width: 80px;
+  }
+
+  .comment-cell {
+    max-width: 150px;
+  }
+
+  .search-input {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  .slds-button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .slds-button_brand,
+  .slds-button_neutral {
+    width: 100%;
+  }
+
+  .slds-grid {
+    row-gap: 0.5rem;
+  }
+
+  .slds-col {
+    min-width: 100%;
+  }
+
+  .slds-modal__container {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .slds-form-element {
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .col-comments {
+    max-width: 200px;
+  }
+
+  .col-due {
+    display: table-cell;
+  }
+
+  .col-priority {
+    display: none;
+  }
+
+  .search-input {
+    max-width: 200px;
+  }
+
+  .task-table {
+    font-size: 0.9rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+  .task-list-card {
+    margin: 0;
+  }
+
+  .task-table {
+    font-size: 1rem;
+  }
+
+  .col-comments {
+    max-width: 300px;
+  }
+}
+
+/* Focus and accessibility */
+.slds-input:focus,
+.slds-select:focus,
+.slds-button:focus {
+  outline: 2px solid #0070d2;
+  outline-offset: 2px;
+}
+
+.slds-text-link:focus {
+  outline: 2px solid #0070d2;
+  border-radius: 2px;
+}
+
+/* Ensure table container scrolls properly */
+.slds-table_container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+/* Ensure modal doesn't exceed viewport */
+.slds-backdrop {
+  z-index: 1000;
+}
+
+.slds-modal {
+  z-index: 1001;
+}
